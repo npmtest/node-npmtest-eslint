@@ -1,0 +1,4511 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for node-npmtest-eslint/eslint/lib/code-path-analysis/code-path-state.js</title>
+    <meta charset="utf-8">
+    <style>
+        body, html {
+            margin:0; padding: 0;
+        }
+        body {
+            font-family: Arial, Helvetica;
+            font-size: 10pt;
+        }
+        div.header, div.footer {
+            background: #eee;
+            padding: 1em;
+        }
+        div.header {
+            height: 160px;
+            padding: 0 1em 0 1em;
+            z-index: 100;
+            position: fixed;
+            top: 0;
+            border-bottom: 1px solid #666;
+            width: 100%;
+        }
+        div.footer {
+            border-top: 1px solid #666;
+        }
+        div.body {
+            margin-top: 170px;
+        }
+        div.meta {
+            font-size: 90%;
+            text-align: center;
+        }
+        h1, h2, h3 {
+            font-weight: normal;
+        }
+        h1 {
+            font-size: 12pt;
+        }
+        h2 {
+            font-size: 10pt;
+        }
+        pre {
+            font-family: Menlo, Monaco, Consolas, Courier New, monospace;
+            margin: 0;
+            padding: 0;
+            font-size: 14px;
+            tab-size: 2;
+        }
+
+        div.path { font-size: 110%; }
+        div.path a:link, div.path a:visited { color: #000; }
+        table.coverage { border-collapse: collapse; margin:0; padding: 0 }
+
+        table.coverage td {
+            margin: 0;
+            padding: 0;
+            color: #111;
+            vertical-align: top;
+        }
+        table.coverage td.line-count {
+            width: 50px;
+            text-align: right;
+            padding-right: 5px;
+        }
+        table.coverage td.line-coverage {
+            color: #777 !important;
+            text-align: right;
+            border-left: 1px solid #666;
+            border-right: 1px solid #666;
+        }
+
+        table.coverage td.text {
+        }
+
+        table.coverage td span.cline-any {
+            display: inline-block;
+            padding: 0 5px;
+            width: 40px;
+        }
+        table.coverage td span.cline-neutral {
+            background: #eee;
+        }
+        table.coverage td span.cline-yes {
+            background: #b5d592;
+            color: #999;
+        }
+        table.coverage td span.cline-no {
+            background: #fc8c84;
+        }
+
+        .cstat-yes { color: #111; }
+        .cstat-no { background: #fc8c84; color: #111; }
+        .fstat-no { background: #ffc520; color: #111 !important; }
+        .cbranch-no { background:  yellow !important; color: #111; }
+
+        .cstat-skip { background: #ddd; color: #111; }
+        .fstat-skip { background: #ddd; color: #111 !important; }
+        .cbranch-skip { background: #ddd !important; color: #111; }
+
+        .missing-if-branch {
+            display: inline-block;
+            margin-right: 10px;
+            position: relative;
+            padding: 0 4px;
+            background: black;
+            color: yellow;
+        }
+
+        .skip-if-branch {
+            display: none;
+            margin-right: 10px;
+            position: relative;
+            padding: 0 4px;
+            background: #ccc;
+            color: white;
+        }
+
+        .missing-if-branch .typ, .skip-if-branch .typ {
+            color: inherit !important;
+        }
+
+        .entity, .metric { font-weight: bold; }
+        .metric { display: inline-block; border: 1px solid #333; padding: 0.3em; background: white; }
+        .metric small { font-size: 80%; font-weight: normal; color: #666; }
+
+        div.coverage-summary table { border-collapse: collapse; margin: 3em; font-size: 110%; }
+        div.coverage-summary td, div.coverage-summary table  th { margin: 0; padding: 0.25em 1em; border-top: 1px solid #666; border-bottom: 1px solid #666; }
+        div.coverage-summary th { text-align: left; border: 1px solid #666; background: #eee; font-weight: normal; }
+        div.coverage-summary th.file { border-right: none !important; }
+        div.coverage-summary th.pic { border-left: none !important; text-align: right; }
+        div.coverage-summary th.pct { border-right: none !important; }
+        div.coverage-summary th.abs { border-left: none !important; text-align: right; }
+        div.coverage-summary td.pct { text-align: right; border-left: 1px solid #666; }
+        div.coverage-summary td.abs { text-align: right; font-size: 90%; color: #444; border-right: 1px solid #666; }
+        div.coverage-summary td.file { text-align: right; border-left: 1px solid #666; white-space: nowrap;  }
+        div.coverage-summary td.pic { min-width: 120px !important;  }
+        div.coverage-summary a:link { color: #000; }
+        div.coverage-summary a:visited { color: #333; }
+        div.coverage-summary tfoot td { border-top: 1px solid #666; }
+
+        div.coverage-summary .yui3-datatable-sort-indicator, div.coverage-summary .dummy-sort-indicator {
+            height: 10px;
+            width: 7px;
+            display: inline-block;
+            margin-left: 0.5em;
+        }
+        div.coverage-summary .yui3-datatable-sort-indicator {
+            background: no-repeat scroll 0 0 transparent;
+        }
+        div.coverage-summary .yui3-datatable-sorted .yui3-datatable-sort-indicator {
+            background-position: 0 -20px;
+        }
+        div.coverage-summary .yui3-datatable-sorted-desc .yui3-datatable-sort-indicator {
+            background-position: 0 -10px;
+        }
+
+        .high { background: #b5d592 !important; }
+        .medium { background: #ffe87c !important; }
+        .low { background: #fc8c84 !important; }
+
+        span.cover-fill, span.cover-empty {
+            display:inline-block;
+            border:1px solid #444;
+            background: white;
+            height: 12px;
+        }
+        span.cover-fill {
+            background: #ccc;
+            border-right: 1px solid #444;
+        }
+        span.cover-empty {
+            background: white;
+            border-left: none;
+        }
+        span.cover-full {
+            border-right: none !important;
+        }
+        pre.prettyprint {
+            border: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        .com { color: #999 !important; }
+        .ignore-none { color: #999; font-weight: normal; }
+
+    </style>
+</head>
+<body>
+<div class="header low">
+    <h1 style="font-weight: bold;">
+        <a href="https://github.com/npmtest/node-npmtest-eslint">npmtest-eslint (v0.0.1)</a>
+    </h1>
+    <h1>Code coverage report for <span class="entity">node-npmtest-eslint/eslint/lib/code-path-analysis/code-path-state.js</span></h1>
+    <h2>
+        
+        Statements: <span class="metric">3.86% <small>(16 / 415)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Branches: <span class="metric">3.11% <small>(5 / 161)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Functions: <span class="metric">0% <small>(0 / 48)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Lines: <span class="metric">3.86% <small>(16 / 415)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        Ignored: <span class="metric">5 statements, 5 branches</span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../../../../index.html">All files</a> &#187; <a href="index.html">node-npmtest-eslint/eslint/lib/code-path-analysis/</a> &#187; code-path-state.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536
+537
+538
+539
+540
+541
+542
+543
+544
+545
+546
+547
+548
+549
+550
+551
+552
+553
+554
+555
+556
+557
+558
+559
+560
+561
+562
+563
+564
+565
+566
+567
+568
+569
+570
+571
+572
+573
+574
+575
+576
+577
+578
+579
+580
+581
+582
+583
+584
+585
+586
+587
+588
+589
+590
+591
+592
+593
+594
+595
+596
+597
+598
+599
+600
+601
+602
+603
+604
+605
+606
+607
+608
+609
+610
+611
+612
+613
+614
+615
+616
+617
+618
+619
+620
+621
+622
+623
+624
+625
+626
+627
+628
+629
+630
+631
+632
+633
+634
+635
+636
+637
+638
+639
+640
+641
+642
+643
+644
+645
+646
+647
+648
+649
+650
+651
+652
+653
+654
+655
+656
+657
+658
+659
+660
+661
+662
+663
+664
+665
+666
+667
+668
+669
+670
+671
+672
+673
+674
+675
+676
+677
+678
+679
+680
+681
+682
+683
+684
+685
+686
+687
+688
+689
+690
+691
+692
+693
+694
+695
+696
+697
+698
+699
+700
+701
+702
+703
+704
+705
+706
+707
+708
+709
+710
+711
+712
+713
+714
+715
+716
+717
+718
+719
+720
+721
+722
+723
+724
+725
+726
+727
+728
+729
+730
+731
+732
+733
+734
+735
+736
+737
+738
+739
+740
+741
+742
+743
+744
+745
+746
+747
+748
+749
+750
+751
+752
+753
+754
+755
+756
+757
+758
+759
+760
+761
+762
+763
+764
+765
+766
+767
+768
+769
+770
+771
+772
+773
+774
+775
+776
+777
+778
+779
+780
+781
+782
+783
+784
+785
+786
+787
+788
+789
+790
+791
+792
+793
+794
+795
+796
+797
+798
+799
+800
+801
+802
+803
+804
+805
+806
+807
+808
+809
+810
+811
+812
+813
+814
+815
+816
+817
+818
+819
+820
+821
+822
+823
+824
+825
+826
+827
+828
+829
+830
+831
+832
+833
+834
+835
+836
+837
+838
+839
+840
+841
+842
+843
+844
+845
+846
+847
+848
+849
+850
+851
+852
+853
+854
+855
+856
+857
+858
+859
+860
+861
+862
+863
+864
+865
+866
+867
+868
+869
+870
+871
+872
+873
+874
+875
+876
+877
+878
+879
+880
+881
+882
+883
+884
+885
+886
+887
+888
+889
+890
+891
+892
+893
+894
+895
+896
+897
+898
+899
+900
+901
+902
+903
+904
+905
+906
+907
+908
+909
+910
+911
+912
+913
+914
+915
+916
+917
+918
+919
+920
+921
+922
+923
+924
+925
+926
+927
+928
+929
+930
+931
+932
+933
+934
+935
+936
+937
+938
+939
+940
+941
+942
+943
+944
+945
+946
+947
+948
+949
+950
+951
+952
+953
+954
+955
+956
+957
+958
+959
+960
+961
+962
+963
+964
+965
+966
+967
+968
+969
+970
+971
+972
+973
+974
+975
+976
+977
+978
+979
+980
+981
+982
+983
+984
+985
+986
+987
+988
+989
+990
+991
+992
+993
+994
+995
+996
+997
+998
+999
+1000
+1001
+1002
+1003
+1004
+1005
+1006
+1007
+1008
+1009
+1010
+1011
+1012
+1013
+1014
+1015
+1016
+1017
+1018
+1019
+1020
+1021
+1022
+1023
+1024
+1025
+1026
+1027
+1028
+1029
+1030
+1031
+1032
+1033
+1034
+1035
+1036
+1037
+1038
+1039
+1040
+1041
+1042
+1043
+1044
+1045
+1046
+1047
+1048
+1049
+1050
+1051
+1052
+1053
+1054
+1055
+1056
+1057
+1058
+1059
+1060
+1061
+1062
+1063
+1064
+1065
+1066
+1067
+1068
+1069
+1070
+1071
+1072
+1073
+1074
+1075
+1076
+1077
+1078
+1079
+1080
+1081
+1082
+1083
+1084
+1085
+1086
+1087
+1088
+1089
+1090
+1091
+1092
+1093
+1094
+1095
+1096
+1097
+1098
+1099
+1100
+1101
+1102
+1103
+1104
+1105
+1106
+1107
+1108
+1109
+1110
+1111
+1112
+1113
+1114
+1115
+1116
+1117
+1118
+1119
+1120
+1121
+1122
+1123
+1124
+1125
+1126
+1127
+1128
+1129
+1130
+1131
+1132
+1133
+1134
+1135
+1136
+1137
+1138
+1139
+1140
+1141
+1142
+1143
+1144
+1145
+1146
+1147
+1148
+1149
+1150
+1151
+1152
+1153
+1154
+1155
+1156
+1157
+1158
+1159
+1160
+1161
+1162
+1163
+1164
+1165
+1166
+1167
+1168
+1169
+1170
+1171
+1172
+1173
+1174
+1175
+1176
+1177
+1178
+1179
+1180
+1181
+1182
+1183
+1184
+1185
+1186
+1187
+1188
+1189
+1190
+1191
+1192
+1193
+1194
+1195
+1196
+1197
+1198
+1199
+1200
+1201
+1202
+1203
+1204
+1205
+1206
+1207
+1208
+1209
+1210
+1211
+1212
+1213
+1214
+1215
+1216
+1217
+1218
+1219
+1220
+1221
+1222
+1223
+1224
+1225
+1226
+1227
+1228
+1229
+1230
+1231
+1232
+1233
+1234
+1235
+1236
+1237
+1238
+1239
+1240
+1241
+1242
+1243
+1244
+1245
+1246
+1247
+1248
+1249
+1250
+1251
+1252
+1253
+1254
+1255
+1256
+1257
+1258
+1259
+1260
+1261
+1262
+1263
+1264
+1265
+1266
+1267
+1268
+1269
+1270
+1271
+1272
+1273
+1274
+1275
+1276
+1277
+1278
+1279
+1280
+1281
+1282
+1283
+1284
+1285
+1286
+1287
+1288
+1289
+1290
+1291
+1292
+1293
+1294
+1295
+1296
+1297
+1298
+1299
+1300
+1301
+1302
+1303
+1304
+1305
+1306
+1307
+1308
+1309
+1310
+1311
+1312
+1313
+1314
+1315
+1316
+1317
+1318
+1319
+1320
+1321
+1322
+1323
+1324
+1325
+1326
+1327
+1328
+1329
+1330
+1331
+1332
+1333
+1334
+1335
+1336
+1337
+1338
+1339
+1340
+1341
+1342
+1343
+1344
+1345
+1346
+1347
+1348
+1349
+1350
+1351
+1352
+1353
+1354
+1355
+1356
+1357
+1358
+1359
+1360
+1361
+1362
+1363
+1364
+1365
+1366
+1367
+1368
+1369
+1370
+1371
+1372
+1373
+1374
+1375
+1376
+1377
+1378
+1379
+1380
+1381
+1382
+1383
+1384
+1385
+1386
+1387
+1388
+1389
+1390
+1391
+1392
+1393
+1394
+1395
+1396
+1397
+1398
+1399
+1400
+1401
+1402
+1403
+1404
+1405
+1406
+1407
+1408
+1409
+1410
+1411
+1412
+1413
+1414
+1415
+1416
+1417
+1418
+1419
+1420
+1421
+1422
+1423
+1424
+1425
+1426
+1427
+1428
+1429
+1430</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
+ * @fileoverview A class to manage state of generating a code path.
+ * @author Toru Nagashima
+ */
+&nbsp;
+"use strict";
+&nbsp;
+//------------------------------------------------------------------------------
+// Requirements
+//------------------------------------------------------------------------------
+&nbsp;
+const CodePathSegment = require("./code-path-segment"),
+    ForkContext = require("./fork-context");
+&nbsp;
+//------------------------------------------------------------------------------
+// Helpers
+//------------------------------------------------------------------------------
+&nbsp;
+/**
+ * Adds given segments into the `dest` array.
+ * If the `others` array does not includes the given segments, adds to the `all`
+ * array as well.
+ *
+ * This adds only reachable and used segments.
+ *
+ * @param {CodePathSegment[]} dest - A destination array (`returnedSegments` or `thrownSegments`).
+ * @param {CodePathSegment[]} others - Another destination array (`returnedSegments` or `thrownSegments`).
+ * @param {CodePathSegment[]} all - The unified destination array (`finalSegments`).
+ * @param {CodePathSegment[]} segments - Segments to add.
+ * @returns {void}
+ */
+<span class="fstat-no" title="function not covered" >function addToReturnedOrThrown(dest, others, all, segments) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; segments.length; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >        const segment = segments[i];</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        dest.push(segment);</span>
+<span class="cstat-no" title="statement not covered" >        if (others.indexOf(segment) === -1) {</span>
+<span class="cstat-no" title="statement not covered" >            all.push(segment);</span>
+        }
+    }
+}
+&nbsp;
+/**
+ * Gets a loop-context for a `continue` statement.
+ *
+ * @param {CodePathState} state - A state to get.
+ * @param {string} label - The label of a `continue` statement.
+ * @returns {LoopContext} A loop-context for a `continue` statement.
+ */
+<span class="fstat-no" title="function not covered" >function getContinueContext(state, label) {</span>
+<span class="cstat-no" title="statement not covered" >    if (!label) {</span>
+<span class="cstat-no" title="statement not covered" >        return state.loopContext;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    let context = state.loopContext;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    while (context) {</span>
+<span class="cstat-no" title="statement not covered" >        if (context.label === label) {</span>
+<span class="cstat-no" title="statement not covered" >            return context;</span>
+        }
+<span class="cstat-no" title="statement not covered" >        context = context.upper;</span>
+    }
+&nbsp;
+    /* istanbul ignore next: foolproof (syntax error) */
+<span class="cstat-skip" title="statement not covered" >    return null;</span>
+}
+&nbsp;
+/**
+ * Gets a context for a `break` statement.
+ *
+ * @param {CodePathState} state - A state to get.
+ * @param {string} label - The label of a `break` statement.
+ * @returns {LoopContext|SwitchContext} A context for a `break` statement.
+ */
+<span class="fstat-no" title="function not covered" >function getBreakContext(state, label) {</span>
+<span class="cstat-no" title="statement not covered" >    let context = state.breakContext;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    while (context) {</span>
+<span class="cstat-no" title="statement not covered" >        if (label ? context.label === label : context.breakable) {</span>
+<span class="cstat-no" title="statement not covered" >            return context;</span>
+        }
+<span class="cstat-no" title="statement not covered" >        context = context.upper;</span>
+    }
+&nbsp;
+    /* istanbul ignore next: foolproof (syntax error) */
+<span class="cstat-skip" title="statement not covered" >    return null;</span>
+}
+&nbsp;
+/**
+ * Gets a context for a `return` statement.
+ *
+ * @param {CodePathState} state - A state to get.
+ * @returns {TryContext|CodePathState} A context for a `return` statement.
+ */
+<span class="fstat-no" title="function not covered" >function getReturnContext(state) {</span>
+<span class="cstat-no" title="statement not covered" >    let context = state.tryContext;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    while (context) {</span>
+<span class="cstat-no" title="statement not covered" >        if (context.hasFinalizer &amp;&amp; context.position !== "finally") {</span>
+<span class="cstat-no" title="statement not covered" >            return context;</span>
+        }
+<span class="cstat-no" title="statement not covered" >        context = context.upper;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return state;</span>
+}
+&nbsp;
+/**
+ * Gets a context for a `throw` statement.
+ *
+ * @param {CodePathState} state - A state to get.
+ * @returns {TryContext|CodePathState} A context for a `throw` statement.
+ */
+<span class="fstat-no" title="function not covered" >function getThrowContext(state) {</span>
+<span class="cstat-no" title="statement not covered" >    let context = state.tryContext;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    while (context) {</span>
+<span class="cstat-no" title="statement not covered" >        if (context.position === "try" ||</span>
+            (context.hasFinalizer &amp;&amp; context.position === "catch")
+        ) {
+<span class="cstat-no" title="statement not covered" >            return context;</span>
+        }
+<span class="cstat-no" title="statement not covered" >        context = context.upper;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return state;</span>
+}
+&nbsp;
+/**
+ * Removes a given element from a given array.
+ *
+ * @param {any[]} xs - An array to remove the specific element.
+ * @param {any} x - An element to be removed.
+ * @returns {void}
+ */
+<span class="fstat-no" title="function not covered" >function remove(xs, x) {</span>
+<span class="cstat-no" title="statement not covered" >    xs.splice(xs.indexOf(x), 1);</span>
+}
+&nbsp;
+/**
+ * Disconnect given segments.
+ *
+ * This is used in a process for switch statements.
+ * If there is the "default" chunk before other cases, the order is different
+ * between node's and running's.
+ *
+ * @param {CodePathSegment[]} prevSegments - Forward segments to disconnect.
+ * @param {CodePathSegment[]} nextSegments - Backward segments to disconnect.
+ * @returns {void}
+ */
+<span class="fstat-no" title="function not covered" >function removeConnection(prevSegments, nextSegments) {</span>
+<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; prevSegments.length; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >        const prevSegment = prevSegments[i];</span>
+<span class="cstat-no" title="statement not covered" >        const nextSegment = nextSegments[i];</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        remove(prevSegment.nextSegments, nextSegment);</span>
+<span class="cstat-no" title="statement not covered" >        remove(prevSegment.allNextSegments, nextSegment);</span>
+<span class="cstat-no" title="statement not covered" >        remove(nextSegment.prevSegments, prevSegment);</span>
+<span class="cstat-no" title="statement not covered" >        remove(nextSegment.allPrevSegments, prevSegment);</span>
+    }
+}
+&nbsp;
+/**
+ * Creates looping path.
+ *
+ * @param {CodePathState} state - The instance.
+ * @param {CodePathSegment[]} fromSegments - Segments which are source.
+ * @param {CodePathSegment[]} toSegments - Segments which are destination.
+ * @returns {void}
+ */
+<span class="fstat-no" title="function not covered" >function makeLooped(state, fromSegments, toSegments) {</span>
+<span class="cstat-no" title="statement not covered" >    const end = Math.min(fromSegments.length, toSegments.length);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    for (let i = 0; i &lt; end; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >        const fromSegment = fromSegments[i];</span>
+<span class="cstat-no" title="statement not covered" >        const toSegment = toSegments[i];</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (toSegment.reachable) {</span>
+<span class="cstat-no" title="statement not covered" >            fromSegment.nextSegments.push(toSegment);</span>
+        }
+<span class="cstat-no" title="statement not covered" >        if (fromSegment.reachable) {</span>
+<span class="cstat-no" title="statement not covered" >            toSegment.prevSegments.push(fromSegment);</span>
+        }
+<span class="cstat-no" title="statement not covered" >        fromSegment.allNextSegments.push(toSegment);</span>
+<span class="cstat-no" title="statement not covered" >        toSegment.allPrevSegments.push(fromSegment);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (toSegment.allPrevSegments.length &gt;= 2) {</span>
+<span class="cstat-no" title="statement not covered" >            CodePathSegment.markPrevSegmentAsLooped(toSegment, fromSegment);</span>
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        state.notifyLooped(fromSegment, toSegment);</span>
+    }
+}
+&nbsp;
+/**
+ * Finalizes segments of `test` chunk of a ForStatement.
+ *
+ * - Adds `false` paths to paths which are leaving from the loop.
+ * - Sets `true` paths to paths which go to the body.
+ *
+ * @param {LoopContext} context - A loop context to modify.
+ * @param {ChoiceContext} choiceContext - A choice context of this loop.
+ * @param {CodePathSegment[]} head - The current head paths.
+ * @returns {void}
+ */
+<span class="fstat-no" title="function not covered" >function finalizeTestSegmentsOfFor(context, choiceContext, head) {</span>
+<span class="cstat-no" title="statement not covered" >    if (!choiceContext.processed) {</span>
+<span class="cstat-no" title="statement not covered" >        choiceContext.trueForkContext.add(head);</span>
+<span class="cstat-no" title="statement not covered" >        choiceContext.falseForkContext.add(head);</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (context.test !== true) {</span>
+<span class="cstat-no" title="statement not covered" >        context.brokenForkContext.addAll(choiceContext.falseForkContext);</span>
+    }
+<span class="cstat-no" title="statement not covered" >    context.endOfTestSegments = choiceContext.trueForkContext.makeNext(0, -1);</span>
+}
+&nbsp;
+//------------------------------------------------------------------------------
+// Public Interface
+//------------------------------------------------------------------------------
+&nbsp;
+/**
+ * A class which manages state to analyze code paths.
+ */
+class CodePathState {
+&nbsp;
+    /**
+     * @param {IdGenerator} idGenerator - An id generator to generate id for code
+     *   path segments.
+     * @param {Function} onLooped - A callback function to notify looping.
+     */
+    constructor<span class="fstat-no" title="function not covered" >(idGenerator, onLooped) {</span>
+<span class="cstat-no" title="statement not covered" >        this.idGenerator = idGenerator;</span>
+<span class="cstat-no" title="statement not covered" >        this.notifyLooped = onLooped;</span>
+<span class="cstat-no" title="statement not covered" >        this.forkContext = ForkContext.newRoot(idGenerator);</span>
+<span class="cstat-no" title="statement not covered" >        this.choiceContext = null;</span>
+<span class="cstat-no" title="statement not covered" >        this.switchContext = null;</span>
+<span class="cstat-no" title="statement not covered" >        this.tryContext = null;</span>
+<span class="cstat-no" title="statement not covered" >        this.loopContext = null;</span>
+<span class="cstat-no" title="statement not covered" >        this.breakContext = null;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        this.currentSegments = [];</span>
+<span class="cstat-no" title="statement not covered" >        this.initialSegment = this.forkContext.head[ 0 ];</span>
+&nbsp;
+        // returnedSegments and thrownSegments push elements into finalSegments also.
+<span class="cstat-no" title="statement not covered" >        const final = this.finalSegments = [];</span>
+<span class="cstat-no" title="statement not covered" >        const returned = this.returnedForkContext = [];</span>
+<span class="cstat-no" title="statement not covered" >        const thrown = this.thrownForkContext = [];</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        returned.add = addToReturnedOrThrown.bind(null, returned, thrown, final);</span>
+<span class="cstat-no" title="statement not covered" >        thrown.add = addToReturnedOrThrown.bind(null, thrown, returned, final);</span>
+    }
+&nbsp;
+    /**
+     * The head segments.
+     * @type {CodePathSegment[]}
+     */
+    get headSegments<span class="fstat-no" title="function not covered" >() {</span>
+<span class="cstat-no" title="statement not covered" >        return this.forkContext.head;</span>
+    }
+&nbsp;
+    /**
+     * The parent forking context.
+     * This is used for the root of new forks.
+     * @type {ForkContext}
+     */
+    get parentForkContext<span class="fstat-no" title="function not covered" >() {</span>
+<span class="cstat-no" title="statement not covered" >        const current = this.forkContext;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        return current &amp;&amp; current.upper;</span>
+    }
+&nbsp;
+    /**
+     * Creates and stacks new forking context.
+     *
+     * @param {boolean} forkLeavingPath - A flag which shows being in a
+     *   "finally" block.
+     * @returns {ForkContext} The created context.
+     */
+    pushForkContext<span class="fstat-no" title="function not covered" >(forkLeavingPath) {</span>
+<span class="cstat-no" title="statement not covered" >        this.forkContext = ForkContext.newEmpty(</span>
+            this.forkContext,
+            forkLeavingPath
+        );
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        return this.forkContext;</span>
+    }
+&nbsp;
+    /**
+     * Pops and merges the last forking context.
+     * @returns {ForkContext} The last context.
+     */
+    popForkContext<span class="fstat-no" title="function not covered" >() {</span>
+<span class="cstat-no" title="statement not covered" >        const lastContext = this.forkContext;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        this.forkContext = lastContext.upper;</span>
+<span class="cstat-no" title="statement not covered" >        this.forkContext.replaceHead(lastContext.makeNext(0, -1));</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        return lastContext;</span>
+    }
+&nbsp;
+    /**
+     * Creates a new path.
+     * @returns {void}
+     */
+    forkPath<span class="fstat-no" title="function not covered" >() {</span>
+<span class="cstat-no" title="statement not covered" >        this.forkContext.add(this.parentForkContext.makeNext(-1, -1));</span>
+    }
+&nbsp;
+    /**
+     * Creates a bypass path.
+     * This is used for such as IfStatement which does not have "else" chunk.
+     *
+     * @returns {void}
+     */
+    forkBypassPath<span class="fstat-no" title="function not covered" >() {</span>
+<span class="cstat-no" title="statement not covered" >        this.forkContext.add(this.parentForkContext.head);</span>
+    }
+&nbsp;
+    //--------------------------------------------------------------------------
+    // ConditionalExpression, LogicalExpression, IfStatement
+    //--------------------------------------------------------------------------
+&nbsp;
+    /**
+     * Creates a context for ConditionalExpression, LogicalExpression,
+     * IfStatement, WhileStatement, DoWhileStatement, or ForStatement.
+     *
+     * LogicalExpressions have cases that it goes different paths between the
+     * `true` case and the `false` case.
+     *
+     * For Example:
+     *
+     *     if (a || b) {
+     *         foo();
+     *     } else {
+     *         bar();
+     *     }
+     *
+     * In this case, `b` is evaluated always in the code path of the `else`
+     * block, but it's not so in the code path of the `if` block.
+     * So there are 3 paths.
+     *
+     *     a -&gt; foo();
+     *     a -&gt; b -&gt; foo();
+     *     a -&gt; b -&gt; bar();
+     *
+     * @param {string} kind - A kind string.
+     *   If the new context is LogicalExpression's, this is `"&amp;&amp;"` or `"||"`.
+     *   If it's IfStatement's or ConditionalExpression's, this is `"test"`.
+     *   Otherwise, this is `"loop"`.
+     * @param {boolean} isForkingAsResult - A flag that shows that goes different
+     *   paths between `true` and `false`.
+     * @returns {void}
+     */
+    pushChoiceContext<span class="fstat-no" title="function not covered" >(kind, isForkingAsResult) {</span>
+<span class="cstat-no" title="statement not covered" >        this.choiceContext = {</span>
+            upper: this.choiceContext,
+            kind,
+            isForkingAsResult,
+            trueForkContext: ForkContext.newEmpty(this.forkContext),
+            falseForkContext: ForkContext.newEmpty(this.forkContext),
+            processed: false
+        };
+    }
+&nbsp;
+    /**
+     * Pops the last choice context and finalizes it.
+     *
+     * @returns {ChoiceContext} The popped context.
+     */
+    popChoiceContext<span class="fstat-no" title="function not covered" >() {</span>
+<span class="cstat-no" title="statement not covered" >        const context = this.choiceContext;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        this.choiceContext = context.upper;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        const forkContext = this.forkContext;</span>
+<span class="cstat-no" title="statement not covered" >        const headSegments = forkContext.head;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        switch (context.kind) {</span>
+            case "&amp;&amp;":
+            case "||":
+&nbsp;
+                /*
+                 * If any result were not transferred from child contexts,
+                 * this sets the head segments to both cases.
+                 * The head segments are the path of the right-hand operand.
+                 */
+<span class="cstat-no" title="statement not covered" >                if (!context.processed) {</span>
+<span class="cstat-no" title="statement not covered" >                    context.trueForkContext.add(headSegments);</span>
+<span class="cstat-no" title="statement not covered" >                    context.falseForkContext.add(headSegments);</span>
+                }
+&nbsp;
+                /*
+                 * Transfers results to upper context if this context is in
+                 * test chunk.
+                 */
+<span class="cstat-no" title="statement not covered" >                if (context.isForkingAsResult) {</span>
+<span class="cstat-no" title="statement not covered" >                    const parentContext = this.choiceContext;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                    parentContext.trueForkContext.addAll(context.trueForkContext);</span>
+<span class="cstat-no" title="statement not covered" >                    parentContext.falseForkContext.addAll(context.falseForkContext);</span>
+<span class="cstat-no" title="statement not covered" >                    parentContext.processed = true;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                    return context;</span>
+                }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                break;</span>
+&nbsp;
+            case "test":
+<span class="cstat-no" title="statement not covered" >                if (!context.processed) {</span>
+&nbsp;
+                    /*
+                     * The head segments are the path of the `if` block here.
+                     * Updates the `true` path with the end of the `if` block.
+                     */
+<span class="cstat-no" title="statement not covered" >                    context.trueForkContext.clear();</span>
+<span class="cstat-no" title="statement not covered" >                    context.trueForkContext.add(headSegments);</span>
+                } else {
+&nbsp;
+                    /*
+                     * The head segments are the path of the `else` block here.
+                     * Updates the `false` path with the end of the `else`
+                     * block.
+                     */
+<span class="cstat-no" title="statement not covered" >                    context.falseForkContext.clear();</span>
+<span class="cstat-no" title="statement not covered" >                    context.falseForkContext.add(headSegments);</span>
+                }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                break;</span>
+&nbsp;
+            case "loop":
+&nbsp;
+                /*
+                 * Loops are addressed in popLoopContext().
+                 * This is called from popLoopContext().
+                 */
+<span class="cstat-no" title="statement not covered" >                return context;</span>
+&nbsp;
+            /* istanbul ignore next */
+            default:
+<span class="cstat-skip" title="statement not covered" >                throw new Error("unreachable");</span>
+        }
+&nbsp;
+        // Merges all paths.
+<span class="cstat-no" title="statement not covered" >        const prevForkContext = context.trueForkContext;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        prevForkContext.addAll(context.falseForkContext);</span>
+<span class="cstat-no" title="statement not covered" >        forkContext.replaceHead(prevForkContext.makeNext(0, -1));</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        return context;</span>
+    }
+&nbsp;
+    /**
+     * Makes a code path segment of the right-hand operand of a logical
+     * expression.
+     *
+     * @returns {void}
+     */
+    makeLogicalRight<span class="fstat-no" title="function not covered" >() {</span>
+<span class="cstat-no" title="statement not covered" >        const context = this.choiceContext;</span>
+<span class="cstat-no" title="statement not covered" >        const forkContext = this.forkContext;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (context.processed) {</span>
+&nbsp;
+            /*
+             * This got segments already from the child choice context.
+             * Creates the next path from own true/false fork context.
+             */
+<span class="cstat-no" title="statement not covered" >            const prevForkContext =</span>
+                context.kind === "&amp;&amp;" ? context.trueForkContext
+                /* kind === "||" */ : context.falseForkContext;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            forkContext.replaceHead(prevForkContext.makeNext(0, -1));</span>
+<span class="cstat-no" title="statement not covered" >            prevForkContext.clear();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            context.processed = false;</span>
+        } else {
+&nbsp;
+            /*
+             * This did not get segments from the child choice context.
+             * So addresses the head segments.
+             * The head segments are the path of the left-hand operand.
+             */
+<span class="cstat-no" title="statement not covered" >            if (context.kind === "&amp;&amp;") {</span>
+&nbsp;
+                // The path does short-circuit if false.
+<span class="cstat-no" title="statement not covered" >                context.falseForkContext.add(forkContext.head);</span>
+            } else {
+&nbsp;
+                // The path does short-circuit if true.
+<span class="cstat-no" title="statement not covered" >                context.trueForkContext.add(forkContext.head);</span>
+            }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            forkContext.replaceHead(forkContext.makeNext(-1, -1));</span>
+        }
+    }
+&nbsp;
+    /**
+     * Makes a code path segment of the `if` block.
+     *
+     * @returns {void}
+     */
+    makeIfConsequent<span class="fstat-no" title="function not covered" >() {</span>
+<span class="cstat-no" title="statement not covered" >        const context = this.choiceContext;</span>
+<span class="cstat-no" title="statement not covered" >        const forkContext = this.forkContext;</span>
+&nbsp;
+        /*
+         * If any result were not transferred from child contexts,
+         * this sets the head segments to both cases.
+         * The head segments are the path of the test expression.
+         */
+<span class="cstat-no" title="statement not covered" >        if (!context.processed) {</span>
+<span class="cstat-no" title="statement not covered" >            context.trueForkContext.add(forkContext.head);</span>
+<span class="cstat-no" title="statement not covered" >            context.falseForkContext.add(forkContext.head);</span>
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        context.processed = false;</span>
+&nbsp;
+        // Creates new path from the `true` case.
+<span class="cstat-no" title="statement not covered" >        forkContext.replaceHead(</span>
+            context.trueForkContext.makeNext(0, -1)
+        );
+    }
+&nbsp;
+    /**
+     * Makes a code path segment of the `else` block.
+     *
+     * @returns {void}
+     */
+    makeIfAlternate<span class="fstat-no" title="function not covered" >() {</span>
+<span class="cstat-no" title="statement not covered" >        const context = this.choiceContext;</span>
+<span class="cstat-no" title="statement not covered" >        const forkContext = this.forkContext;</span>
+&nbsp;
+        /*
+         * The head segments are the path of the `if` block.
+         * Updates the `true` path with the end of the `if` block.
+         */
+<span class="cstat-no" title="statement not covered" >        context.trueForkContext.clear();</span>
+<span class="cstat-no" title="statement not covered" >        context.trueForkContext.add(forkContext.head);</span>
+<span class="cstat-no" title="statement not covered" >        context.processed = true;</span>
+&nbsp;
+        // Creates new path from the `false` case.
+<span class="cstat-no" title="statement not covered" >        forkContext.replaceHead(</span>
+            context.falseForkContext.makeNext(0, -1)
+        );
+    }
+&nbsp;
+    //--------------------------------------------------------------------------
+    // SwitchStatement
+    //--------------------------------------------------------------------------
+&nbsp;
+    /**
+     * Creates a context object of SwitchStatement and stacks it.
+     *
+     * @param {boolean} hasCase - `true` if the switch statement has one or more
+     *   case parts.
+     * @param {string|null} label - The label text.
+     * @returns {void}
+     */
+    pushSwitchContext<span class="fstat-no" title="function not covered" >(hasCase, label) {</span>
+<span class="cstat-no" title="statement not covered" >        this.switchContext = {</span>
+            upper: this.switchContext,
+            hasCase,
+            defaultSegments: null,
+            defaultBodySegments: null,
+            foundDefault: false,
+            lastIsDefault: false,
+            countForks: 0
+        };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        this.pushBreakContext(true, label);</span>
+    }
+&nbsp;
+    /**
+     * Pops the last context of SwitchStatement and finalizes it.
+     *
+     * - Disposes all forking stack for `case` and `default`.
+     * - Creates the next code path segment from `context.brokenForkContext`.
+     * - If the last `SwitchCase` node is not a `default` part, creates a path
+     *   to the `default` body.
+     *
+     * @returns {void}
+     */
+    popSwitchContext<span class="fstat-no" title="function not covered" >() {</span>
+<span class="cstat-no" title="statement not covered" >        const context = this.switchContext;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        this.switchContext = context.upper;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        const forkContext = this.forkContext;</span>
+<span class="cstat-no" title="statement not covered" >        const brokenForkContext = this.popBreakContext().brokenForkContext;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (context.countForks === 0) {</span>
+&nbsp;
+            /*
+             * When there is only one `default` chunk and there is one or more
+             * `break` statements, even if forks are nothing, it needs to merge
+             * those.
+             */
+<span class="cstat-no" title="statement not covered" >            if (!brokenForkContext.empty) {</span>
+<span class="cstat-no" title="statement not covered" >                brokenForkContext.add(forkContext.makeNext(-1, -1));</span>
+<span class="cstat-no" title="statement not covered" >                forkContext.replaceHead(brokenForkContext.makeNext(0, -1));</span>
+            }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            return;</span>
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        const lastSegments = forkContext.head;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        this.forkBypassPath();</span>
+<span class="cstat-no" title="statement not covered" >        const lastCaseSegments = forkContext.head;</span>
+&nbsp;
+        /*
+         * `brokenForkContext` is used to make the next segment.
+         * It must add the last segment into `brokenForkContext`.
+         */
+<span class="cstat-no" title="statement not covered" >        brokenForkContext.add(lastSegments);</span>
+&nbsp;
+        /*
+         * A path which is failed in all case test should be connected to path
+         * of `default` chunk.
+         */
+<span class="cstat-no" title="statement not covered" >        if (!context.lastIsDefault) {</span>
+<span class="cstat-no" title="statement not covered" >            if (context.defaultBodySegments) {</span>
+&nbsp;
+                /*
+                 * Remove a link from `default` label to its chunk.
+                 * It's false route.
+                 */
+<span class="cstat-no" title="statement not covered" >                removeConnection(context.defaultSegments, context.defaultBodySegments);</span>
+<span class="cstat-no" title="statement not covered" >                makeLooped(this, lastCaseSegments, context.defaultBodySegments);</span>
+            } else {
+&nbsp;
+                /*
+                 * It handles the last case body as broken if `default` chunk
+                 * does not exist.
+                 */
+<span class="cstat-no" title="statement not covered" >                brokenForkContext.add(lastCaseSegments);</span>
+            }
+        }
+&nbsp;
+        // Pops the segment context stack until the entry segment.
+<span class="cstat-no" title="statement not covered" >        for (let i = 0; i &lt; context.countForks; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >            this.forkContext = this.forkContext.upper;</span>
+        }
+&nbsp;
+        /*
+         * Creates a path from all brokenForkContext paths.
+         * This is a path after switch statement.
+         */
+<span class="cstat-no" title="statement not covered" >        this.forkContext.replaceHead(brokenForkContext.makeNext(0, -1));</span>
+    }
+&nbsp;
+    /**
+     * Makes a code path segment for a `SwitchCase` node.
+     *
+     * @param {boolean} isEmpty - `true` if the body is empty.
+     * @param {boolean} isDefault - `true` if the body is the default case.
+     * @returns {void}
+     */
+    makeSwitchCaseBody<span class="fstat-no" title="function not covered" >(isEmpty, isDefault) {</span>
+<span class="cstat-no" title="statement not covered" >        const context = this.switchContext;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (!context.hasCase) {</span>
+<span class="cstat-no" title="statement not covered" >            return;</span>
+        }
+&nbsp;
+        /*
+         * Merge forks.
+         * The parent fork context has two segments.
+         * Those are from the current case and the body of the previous case.
+         */
+<span class="cstat-no" title="statement not covered" >        const parentForkContext = this.forkContext;</span>
+<span class="cstat-no" title="statement not covered" >        const forkContext = this.pushForkContext();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        forkContext.add(parentForkContext.makeNext(0, -1));</span>
+&nbsp;
+        /*
+         * Save `default` chunk info.
+         * If the `default` label is not at the last, we must make a path from
+         * the last `case` to the `default` chunk.
+         */
+<span class="cstat-no" title="statement not covered" >        if (isDefault) {</span>
+<span class="cstat-no" title="statement not covered" >            context.defaultSegments = parentForkContext.head;</span>
+<span class="cstat-no" title="statement not covered" >            if (isEmpty) {</span>
+<span class="cstat-no" title="statement not covered" >                context.foundDefault = true;</span>
+            } else {
+<span class="cstat-no" title="statement not covered" >                context.defaultBodySegments = forkContext.head;</span>
+            }
+        } else {
+<span class="cstat-no" title="statement not covered" >            if (!isEmpty &amp;&amp; context.foundDefault) {</span>
+<span class="cstat-no" title="statement not covered" >                context.foundDefault = false;</span>
+<span class="cstat-no" title="statement not covered" >                context.defaultBodySegments = forkContext.head;</span>
+            }
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        context.lastIsDefault = isDefault;</span>
+<span class="cstat-no" title="statement not covered" >        context.countForks += 1;</span>
+    }
+&nbsp;
+    //--------------------------------------------------------------------------
+    // TryStatement
+    //--------------------------------------------------------------------------
+&nbsp;
+    /**
+     * Creates a context object of TryStatement and stacks it.
+     *
+     * @param {boolean} hasFinalizer - `true` if the try statement has a
+     *   `finally` block.
+     * @returns {void}
+     */
+    pushTryContext<span class="fstat-no" title="function not covered" >(hasFinalizer) {</span>
+<span class="cstat-no" title="statement not covered" >        this.tryContext = {</span>
+            upper: this.tryContext,
+            position: "try",
+            hasFinalizer,
+&nbsp;
+            returnedForkContext: hasFinalizer
+                ? ForkContext.newEmpty(this.forkContext)
+                : null,
+&nbsp;
+            thrownForkContext: ForkContext.newEmpty(this.forkContext),
+            lastOfTryIsReachable: false,
+            lastOfCatchIsReachable: false
+        };
+    }
+&nbsp;
+    /**
+     * Pops the last context of TryStatement and finalizes it.
+     *
+     * @returns {void}
+     */
+    popTryContext<span class="fstat-no" title="function not covered" >() {</span>
+<span class="cstat-no" title="statement not covered" >        const context = this.tryContext;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        this.tryContext = context.upper;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (context.position === "catch") {</span>
+&nbsp;
+            // Merges two paths from the `try` block and `catch` block merely.
+<span class="cstat-no" title="statement not covered" >            this.popForkContext();</span>
+<span class="cstat-no" title="statement not covered" >            return;</span>
+        }
+&nbsp;
+        /*
+         * The following process is executed only when there is the `finally`
+         * block.
+         */
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        const returned = context.returnedForkContext;</span>
+<span class="cstat-no" title="statement not covered" >        const thrown = context.thrownForkContext;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (returned.empty &amp;&amp; thrown.empty) {</span>
+<span class="cstat-no" title="statement not covered" >            return;</span>
+        }
+&nbsp;
+        // Separate head to normal paths and leaving paths.
+<span class="cstat-no" title="statement not covered" >        const headSegments = this.forkContext.head;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        this.forkContext = this.forkContext.upper;</span>
+<span class="cstat-no" title="statement not covered" >        const normalSegments = headSegments.slice(0, headSegments.length / 2 | 0);</span>
+<span class="cstat-no" title="statement not covered" >        const leavingSegments = headSegments.slice(headSegments.length / 2 | 0);</span>
+&nbsp;
+        // Forwards the leaving path to upper contexts.
+<span class="cstat-no" title="statement not covered" >        if (!returned.empty) {</span>
+<span class="cstat-no" title="statement not covered" >            getReturnContext(this).returnedForkContext.add(leavingSegments);</span>
+        }
+<span class="cstat-no" title="statement not covered" >        if (!thrown.empty) {</span>
+<span class="cstat-no" title="statement not covered" >            getThrowContext(this).thrownForkContext.add(leavingSegments);</span>
+        }
+&nbsp;
+        // Sets the normal path as the next.
+<span class="cstat-no" title="statement not covered" >        this.forkContext.replaceHead(normalSegments);</span>
+&nbsp;
+        // If both paths of the `try` block and the `catch` block are
+        // unreachable, the next path becomes unreachable as well.
+<span class="cstat-no" title="statement not covered" >        if (!context.lastOfTryIsReachable &amp;&amp; !context.lastOfCatchIsReachable) {</span>
+<span class="cstat-no" title="statement not covered" >            this.forkContext.makeUnreachable();</span>
+        }
+    }
+&nbsp;
+    /**
+     * Makes a code path segment for a `catch` block.
+     *
+     * @returns {void}
+     */
+    makeCatchBlock<span class="fstat-no" title="function not covered" >() {</span>
+<span class="cstat-no" title="statement not covered" >        const context = this.tryContext;</span>
+<span class="cstat-no" title="statement not covered" >        const forkContext = this.forkContext;</span>
+<span class="cstat-no" title="statement not covered" >        const thrown = context.thrownForkContext;</span>
+&nbsp;
+        // Update state.
+<span class="cstat-no" title="statement not covered" >        context.position = "catch";</span>
+<span class="cstat-no" title="statement not covered" >        context.thrownForkContext = ForkContext.newEmpty(forkContext);</span>
+<span class="cstat-no" title="statement not covered" >        context.lastOfTryIsReachable = forkContext.reachable;</span>
+&nbsp;
+        // Merge thrown paths.
+<span class="cstat-no" title="statement not covered" >        thrown.add(forkContext.head);</span>
+<span class="cstat-no" title="statement not covered" >        const thrownSegments = thrown.makeNext(0, -1);</span>
+&nbsp;
+        // Fork to a bypass and the merged thrown path.
+<span class="cstat-no" title="statement not covered" >        this.pushForkContext();</span>
+<span class="cstat-no" title="statement not covered" >        this.forkBypassPath();</span>
+<span class="cstat-no" title="statement not covered" >        this.forkContext.add(thrownSegments);</span>
+    }
+&nbsp;
+    /**
+     * Makes a code path segment for a `finally` block.
+     *
+     * In the `finally` block, parallel paths are created. The parallel paths
+     * are used as leaving-paths. The leaving-paths are paths from `return`
+     * statements and `throw` statements in a `try` block or a `catch` block.
+     *
+     * @returns {void}
+     */
+    makeFinallyBlock<span class="fstat-no" title="function not covered" >() {</span>
+<span class="cstat-no" title="statement not covered" >        const context = this.tryContext;</span>
+<span class="cstat-no" title="statement not covered" >        let forkContext = this.forkContext;</span>
+<span class="cstat-no" title="statement not covered" >        const returned = context.returnedForkContext;</span>
+<span class="cstat-no" title="statement not covered" >        const thrown = context.thrownForkContext;</span>
+<span class="cstat-no" title="statement not covered" >        const headOfLeavingSegments = forkContext.head;</span>
+&nbsp;
+        // Update state.
+<span class="cstat-no" title="statement not covered" >        if (context.position === "catch") {</span>
+&nbsp;
+            // Merges two paths from the `try` block and `catch` block.
+<span class="cstat-no" title="statement not covered" >            this.popForkContext();</span>
+<span class="cstat-no" title="statement not covered" >            forkContext = this.forkContext;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            context.lastOfCatchIsReachable = forkContext.reachable;</span>
+        } else {
+<span class="cstat-no" title="statement not covered" >            context.lastOfTryIsReachable = forkContext.reachable;</span>
+        }
+<span class="cstat-no" title="statement not covered" >        context.position = "finally";</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (returned.empty &amp;&amp; thrown.empty) {</span>
+&nbsp;
+            // This path does not leave.
+<span class="cstat-no" title="statement not covered" >            return;</span>
+        }
+&nbsp;
+        /*
+         * Create a parallel segment from merging returned and thrown.
+         * This segment will leave at the end of this finally block.
+         */
+<span class="cstat-no" title="statement not covered" >        const segments = forkContext.makeNext(-1, -1);</span>
+<span class="cstat-no" title="statement not covered" >        let j;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        for (let i = 0; i &lt; forkContext.count; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >            const prevSegsOfLeavingSegment = [headOfLeavingSegments[i]];</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            for (j = 0; j &lt; returned.segmentsList.length; ++j) {</span>
+<span class="cstat-no" title="statement not covered" >                prevSegsOfLeavingSegment.push(returned.segmentsList[j][i]);</span>
+            }
+<span class="cstat-no" title="statement not covered" >            for (j = 0; j &lt; thrown.segmentsList.length; ++j) {</span>
+<span class="cstat-no" title="statement not covered" >                prevSegsOfLeavingSegment.push(thrown.segmentsList[j][i]);</span>
+            }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            segments.push(CodePathSegment.newNext(</span>
+                this.idGenerator.next(),
+                prevSegsOfLeavingSegment));
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        this.pushForkContext(true);</span>
+<span class="cstat-no" title="statement not covered" >        this.forkContext.add(segments);</span>
+    }
+&nbsp;
+    /**
+     * Makes a code path segment from the first throwable node to the `catch`
+     * block or the `finally` block.
+     *
+     * @returns {void}
+     */
+    makeFirstThrowablePathInTryBlock<span class="fstat-no" title="function not covered" >() {</span>
+<span class="cstat-no" title="statement not covered" >        const forkContext = this.forkContext;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (!forkContext.reachable) {</span>
+<span class="cstat-no" title="statement not covered" >            return;</span>
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        const context = getThrowContext(this);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (context === this ||</span>
+            context.position !== "try" ||
+            !context.thrownForkContext.empty
+        ) {
+<span class="cstat-no" title="statement not covered" >            return;</span>
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        context.thrownForkContext.add(forkContext.head);</span>
+<span class="cstat-no" title="statement not covered" >        forkContext.replaceHead(forkContext.makeNext(-1, -1));</span>
+    }
+&nbsp;
+    //--------------------------------------------------------------------------
+    // Loop Statements
+    //--------------------------------------------------------------------------
+&nbsp;
+    /**
+     * Creates a context object of a loop statement and stacks it.
+     *
+     * @param {string} type - The type of the node which was triggered. One of
+     *   `WhileStatement`, `DoWhileStatement`, `ForStatement`, `ForInStatement`,
+     *   and `ForStatement`.
+     * @param {string|null} label - A label of the node which was triggered.
+     * @returns {void}
+     */
+    pushLoopContext<span class="fstat-no" title="function not covered" >(type, label) {</span>
+<span class="cstat-no" title="statement not covered" >        const forkContext = this.forkContext;</span>
+<span class="cstat-no" title="statement not covered" >        const breakContext = this.pushBreakContext(true, label);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        switch (type) {</span>
+            case "WhileStatement":
+<span class="cstat-no" title="statement not covered" >                this.pushChoiceContext("loop", false);</span>
+<span class="cstat-no" title="statement not covered" >                this.loopContext = {</span>
+                    upper: this.loopContext,
+                    type,
+                    label,
+                    test: void 0,
+                    continueDestSegments: null,
+                    brokenForkContext: breakContext.brokenForkContext
+                };
+<span class="cstat-no" title="statement not covered" >                break;</span>
+&nbsp;
+            case "DoWhileStatement":
+<span class="cstat-no" title="statement not covered" >                this.pushChoiceContext("loop", false);</span>
+<span class="cstat-no" title="statement not covered" >                this.loopContext = {</span>
+                    upper: this.loopContext,
+                    type,
+                    label,
+                    test: void 0,
+                    entrySegments: null,
+                    continueForkContext: ForkContext.newEmpty(forkContext),
+                    brokenForkContext: breakContext.brokenForkContext
+                };
+<span class="cstat-no" title="statement not covered" >                break;</span>
+&nbsp;
+            case "ForStatement":
+<span class="cstat-no" title="statement not covered" >                this.pushChoiceContext("loop", false);</span>
+<span class="cstat-no" title="statement not covered" >                this.loopContext = {</span>
+                    upper: this.loopContext,
+                    type,
+                    label,
+                    test: void 0,
+                    endOfInitSegments: null,
+                    testSegments: null,
+                    endOfTestSegments: null,
+                    updateSegments: null,
+                    endOfUpdateSegments: null,
+                    continueDestSegments: null,
+                    brokenForkContext: breakContext.brokenForkContext
+                };
+<span class="cstat-no" title="statement not covered" >                break;</span>
+&nbsp;
+            case "ForInStatement":
+            case "ForOfStatement":
+<span class="cstat-no" title="statement not covered" >                this.loopContext = {</span>
+                    upper: this.loopContext,
+                    type,
+                    label,
+                    prevSegments: null,
+                    leftSegments: null,
+                    endOfLeftSegments: null,
+                    continueDestSegments: null,
+                    brokenForkContext: breakContext.brokenForkContext
+                };
+<span class="cstat-no" title="statement not covered" >                break;</span>
+&nbsp;
+            /* istanbul ignore next */
+            default:
+<span class="cstat-skip" title="statement not covered" >                throw new Error(`unknown type: "${type}"`);</span>
+        }
+    }
+&nbsp;
+    /**
+     * Pops the last context of a loop statement and finalizes it.
+     *
+     * @returns {void}
+     */
+    popLoopContext<span class="fstat-no" title="function not covered" >() {</span>
+<span class="cstat-no" title="statement not covered" >        const context = this.loopContext;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        this.loopContext = context.upper;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        const forkContext = this.forkContext;</span>
+<span class="cstat-no" title="statement not covered" >        const brokenForkContext = this.popBreakContext().brokenForkContext;</span>
+<span class="cstat-no" title="statement not covered" >        let choiceContext;</span>
+&nbsp;
+        // Creates a looped path.
+<span class="cstat-no" title="statement not covered" >        switch (context.type) {</span>
+            case "WhileStatement":
+            case "ForStatement":
+<span class="cstat-no" title="statement not covered" >                choiceContext = this.popChoiceContext();</span>
+<span class="cstat-no" title="statement not covered" >                makeLooped(</span>
+                    this,
+                    forkContext.head,
+                    context.continueDestSegments);
+<span class="cstat-no" title="statement not covered" >                break;</span>
+&nbsp;
+            case "DoWhileStatement": {
+<span class="cstat-no" title="statement not covered" >                choiceContext = this.popChoiceContext();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                if (!choiceContext.processed) {</span>
+<span class="cstat-no" title="statement not covered" >                    choiceContext.trueForkContext.add(forkContext.head);</span>
+<span class="cstat-no" title="statement not covered" >                    choiceContext.falseForkContext.add(forkContext.head);</span>
+                }
+<span class="cstat-no" title="statement not covered" >                if (context.test !== true) {</span>
+<span class="cstat-no" title="statement not covered" >                    brokenForkContext.addAll(choiceContext.falseForkContext);</span>
+                }
+&nbsp;
+                // `true` paths go to looping.
+<span class="cstat-no" title="statement not covered" >                const segmentsList = choiceContext.trueForkContext.segmentsList;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                for (let i = 0; i &lt; segmentsList.length; ++i) {</span>
+<span class="cstat-no" title="statement not covered" >                    makeLooped(</span>
+                        this,
+                        segmentsList[i],
+                        context.entrySegments);
+                }
+<span class="cstat-no" title="statement not covered" >                break;</span>
+            }
+&nbsp;
+            case "ForInStatement":
+            case "ForOfStatement":
+<span class="cstat-no" title="statement not covered" >                brokenForkContext.add(forkContext.head);</span>
+<span class="cstat-no" title="statement not covered" >                makeLooped(</span>
+                    this,
+                    forkContext.head,
+                    context.leftSegments);
+<span class="cstat-no" title="statement not covered" >                break;</span>
+&nbsp;
+            /* istanbul ignore next */
+            default:
+<span class="cstat-skip" title="statement not covered" >                throw new Error("unreachable");</span>
+        }
+&nbsp;
+        // Go next.
+<span class="cstat-no" title="statement not covered" >        if (brokenForkContext.empty) {</span>
+<span class="cstat-no" title="statement not covered" >            forkContext.replaceHead(forkContext.makeUnreachable(-1, -1));</span>
+        } else {
+<span class="cstat-no" title="statement not covered" >            forkContext.replaceHead(brokenForkContext.makeNext(0, -1));</span>
+        }
+    }
+&nbsp;
+    /**
+     * Makes a code path segment for the test part of a WhileStatement.
+     *
+     * @param {boolean|undefined} test - The test value (only when constant).
+     * @returns {void}
+     */
+    makeWhileTest<span class="fstat-no" title="function not covered" >(test) {</span>
+<span class="cstat-no" title="statement not covered" >        const context = this.loopContext;</span>
+<span class="cstat-no" title="statement not covered" >        const forkContext = this.forkContext;</span>
+<span class="cstat-no" title="statement not covered" >        const testSegments = forkContext.makeNext(0, -1);</span>
+&nbsp;
+        // Update state.
+<span class="cstat-no" title="statement not covered" >        context.test = test;</span>
+<span class="cstat-no" title="statement not covered" >        context.continueDestSegments = testSegments;</span>
+<span class="cstat-no" title="statement not covered" >        forkContext.replaceHead(testSegments);</span>
+    }
+&nbsp;
+    /**
+     * Makes a code path segment for the body part of a WhileStatement.
+     *
+     * @returns {void}
+     */
+    makeWhileBody<span class="fstat-no" title="function not covered" >() {</span>
+<span class="cstat-no" title="statement not covered" >        const context = this.loopContext;</span>
+<span class="cstat-no" title="statement not covered" >        const choiceContext = this.choiceContext;</span>
+<span class="cstat-no" title="statement not covered" >        const forkContext = this.forkContext;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (!choiceContext.processed) {</span>
+<span class="cstat-no" title="statement not covered" >            choiceContext.trueForkContext.add(forkContext.head);</span>
+<span class="cstat-no" title="statement not covered" >            choiceContext.falseForkContext.add(forkContext.head);</span>
+        }
+&nbsp;
+        // Update state.
+<span class="cstat-no" title="statement not covered" >        if (context.test !== true) {</span>
+<span class="cstat-no" title="statement not covered" >            context.brokenForkContext.addAll(choiceContext.falseForkContext);</span>
+        }
+<span class="cstat-no" title="statement not covered" >        forkContext.replaceHead(choiceContext.trueForkContext.makeNext(0, -1));</span>
+    }
+&nbsp;
+    /**
+     * Makes a code path segment for the body part of a DoWhileStatement.
+     *
+     * @returns {void}
+     */
+    makeDoWhileBody<span class="fstat-no" title="function not covered" >() {</span>
+<span class="cstat-no" title="statement not covered" >        const context = this.loopContext;</span>
+<span class="cstat-no" title="statement not covered" >        const forkContext = this.forkContext;</span>
+<span class="cstat-no" title="statement not covered" >        const bodySegments = forkContext.makeNext(-1, -1);</span>
+&nbsp;
+        // Update state.
+<span class="cstat-no" title="statement not covered" >        context.entrySegments = bodySegments;</span>
+<span class="cstat-no" title="statement not covered" >        forkContext.replaceHead(bodySegments);</span>
+    }
+&nbsp;
+    /**
+     * Makes a code path segment for the test part of a DoWhileStatement.
+     *
+     * @param {boolean|undefined} test - The test value (only when constant).
+     * @returns {void}
+     */
+    makeDoWhileTest<span class="fstat-no" title="function not covered" >(test) {</span>
+<span class="cstat-no" title="statement not covered" >        const context = this.loopContext;</span>
+<span class="cstat-no" title="statement not covered" >        const forkContext = this.forkContext;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        context.test = test;</span>
+&nbsp;
+        // Creates paths of `continue` statements.
+<span class="cstat-no" title="statement not covered" >        if (!context.continueForkContext.empty) {</span>
+<span class="cstat-no" title="statement not covered" >            context.continueForkContext.add(forkContext.head);</span>
+<span class="cstat-no" title="statement not covered" >            const testSegments = context.continueForkContext.makeNext(0, -1);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            forkContext.replaceHead(testSegments);</span>
+        }
+    }
+&nbsp;
+    /**
+     * Makes a code path segment for the test part of a ForStatement.
+     *
+     * @param {boolean|undefined} test - The test value (only when constant).
+     * @returns {void}
+     */
+    makeForTest<span class="fstat-no" title="function not covered" >(test) {</span>
+<span class="cstat-no" title="statement not covered" >        const context = this.loopContext;</span>
+<span class="cstat-no" title="statement not covered" >        const forkContext = this.forkContext;</span>
+<span class="cstat-no" title="statement not covered" >        const endOfInitSegments = forkContext.head;</span>
+<span class="cstat-no" title="statement not covered" >        const testSegments = forkContext.makeNext(-1, -1);</span>
+&nbsp;
+        // Update state.
+<span class="cstat-no" title="statement not covered" >        context.test = test;</span>
+<span class="cstat-no" title="statement not covered" >        context.endOfInitSegments = endOfInitSegments;</span>
+<span class="cstat-no" title="statement not covered" >        context.continueDestSegments = context.testSegments = testSegments;</span>
+<span class="cstat-no" title="statement not covered" >        forkContext.replaceHead(testSegments);</span>
+    }
+&nbsp;
+    /**
+     * Makes a code path segment for the update part of a ForStatement.
+     *
+     * @returns {void}
+     */
+    makeForUpdate<span class="fstat-no" title="function not covered" >() {</span>
+<span class="cstat-no" title="statement not covered" >        const context = this.loopContext;</span>
+<span class="cstat-no" title="statement not covered" >        const choiceContext = this.choiceContext;</span>
+<span class="cstat-no" title="statement not covered" >        const forkContext = this.forkContext;</span>
+&nbsp;
+        // Make the next paths of the test.
+<span class="cstat-no" title="statement not covered" >        if (context.testSegments) {</span>
+<span class="cstat-no" title="statement not covered" >            finalizeTestSegmentsOfFor(</span>
+                context,
+                choiceContext,
+                forkContext.head);
+        } else {
+<span class="cstat-no" title="statement not covered" >            context.endOfInitSegments = forkContext.head;</span>
+        }
+&nbsp;
+        // Update state.
+<span class="cstat-no" title="statement not covered" >        const updateSegments = forkContext.makeDisconnected(-1, -1);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        context.continueDestSegments = context.updateSegments = updateSegments;</span>
+<span class="cstat-no" title="statement not covered" >        forkContext.replaceHead(updateSegments);</span>
+    }
+&nbsp;
+    /**
+     * Makes a code path segment for the body part of a ForStatement.
+     *
+     * @returns {void}
+     */
+    makeForBody<span class="fstat-no" title="function not covered" >() {</span>
+<span class="cstat-no" title="statement not covered" >        const context = this.loopContext;</span>
+<span class="cstat-no" title="statement not covered" >        const choiceContext = this.choiceContext;</span>
+<span class="cstat-no" title="statement not covered" >        const forkContext = this.forkContext;</span>
+&nbsp;
+        // Update state.
+<span class="cstat-no" title="statement not covered" >        if (context.updateSegments) {</span>
+<span class="cstat-no" title="statement not covered" >            context.endOfUpdateSegments = forkContext.head;</span>
+&nbsp;
+            // `update` -&gt; `test`
+<span class="cstat-no" title="statement not covered" >            if (context.testSegments) {</span>
+<span class="cstat-no" title="statement not covered" >                makeLooped(</span>
+                    this,
+                    context.endOfUpdateSegments,
+                    context.testSegments);
+            }
+        } else <span class="cstat-no" title="statement not covered" >if (context.testSegments) {</span>
+<span class="cstat-no" title="statement not covered" >            finalizeTestSegmentsOfFor(</span>
+                context,
+                choiceContext,
+                forkContext.head);
+        } else {
+<span class="cstat-no" title="statement not covered" >            context.endOfInitSegments = forkContext.head;</span>
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        let bodySegments = context.endOfTestSegments;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (!bodySegments) {</span>
+&nbsp;
+            /*
+             * If there is not the `test` part, the `body` path comes from the
+             * `init` part and the `update` part.
+             */
+<span class="cstat-no" title="statement not covered" >            const prevForkContext = ForkContext.newEmpty(forkContext);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            prevForkContext.add(context.endOfInitSegments);</span>
+<span class="cstat-no" title="statement not covered" >            if (context.endOfUpdateSegments) {</span>
+<span class="cstat-no" title="statement not covered" >                prevForkContext.add(context.endOfUpdateSegments);</span>
+            }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            bodySegments = prevForkContext.makeNext(0, -1);</span>
+        }
+<span class="cstat-no" title="statement not covered" >        context.continueDestSegments = context.continueDestSegments || bodySegments;</span>
+<span class="cstat-no" title="statement not covered" >        forkContext.replaceHead(bodySegments);</span>
+    }
+&nbsp;
+    /**
+     * Makes a code path segment for the left part of a ForInStatement and a
+     * ForOfStatement.
+     *
+     * @returns {void}
+     */
+    makeForInOfLeft<span class="fstat-no" title="function not covered" >() {</span>
+<span class="cstat-no" title="statement not covered" >        const context = this.loopContext;</span>
+<span class="cstat-no" title="statement not covered" >        const forkContext = this.forkContext;</span>
+<span class="cstat-no" title="statement not covered" >        const leftSegments = forkContext.makeDisconnected(-1, -1);</span>
+&nbsp;
+        // Update state.
+<span class="cstat-no" title="statement not covered" >        context.prevSegments = forkContext.head;</span>
+<span class="cstat-no" title="statement not covered" >        context.leftSegments = context.continueDestSegments = leftSegments;</span>
+<span class="cstat-no" title="statement not covered" >        forkContext.replaceHead(leftSegments);</span>
+    }
+&nbsp;
+    /**
+     * Makes a code path segment for the right part of a ForInStatement and a
+     * ForOfStatement.
+     *
+     * @returns {void}
+     */
+    makeForInOfRight<span class="fstat-no" title="function not covered" >() {</span>
+<span class="cstat-no" title="statement not covered" >        const context = this.loopContext;</span>
+<span class="cstat-no" title="statement not covered" >        const forkContext = this.forkContext;</span>
+<span class="cstat-no" title="statement not covered" >        const temp = ForkContext.newEmpty(forkContext);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        temp.add(context.prevSegments);</span>
+<span class="cstat-no" title="statement not covered" >        const rightSegments = temp.makeNext(-1, -1);</span>
+&nbsp;
+        // Update state.
+<span class="cstat-no" title="statement not covered" >        context.endOfLeftSegments = forkContext.head;</span>
+<span class="cstat-no" title="statement not covered" >        forkContext.replaceHead(rightSegments);</span>
+    }
+&nbsp;
+    /**
+     * Makes a code path segment for the body part of a ForInStatement and a
+     * ForOfStatement.
+     *
+     * @returns {void}
+     */
+    makeForInOfBody<span class="fstat-no" title="function not covered" >() {</span>
+<span class="cstat-no" title="statement not covered" >        const context = this.loopContext;</span>
+<span class="cstat-no" title="statement not covered" >        const forkContext = this.forkContext;</span>
+<span class="cstat-no" title="statement not covered" >        const temp = ForkContext.newEmpty(forkContext);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        temp.add(context.endOfLeftSegments);</span>
+<span class="cstat-no" title="statement not covered" >        const bodySegments = temp.makeNext(-1, -1);</span>
+&nbsp;
+        // Make a path: `right` -&gt; `left`.
+<span class="cstat-no" title="statement not covered" >        makeLooped(this, forkContext.head, context.leftSegments);</span>
+&nbsp;
+        // Update state.
+<span class="cstat-no" title="statement not covered" >        context.brokenForkContext.add(forkContext.head);</span>
+<span class="cstat-no" title="statement not covered" >        forkContext.replaceHead(bodySegments);</span>
+    }
+&nbsp;
+    //--------------------------------------------------------------------------
+    // Control Statements
+    //--------------------------------------------------------------------------
+&nbsp;
+    /**
+     * Creates new context for BreakStatement.
+     *
+     * @param {boolean} breakable - The flag to indicate it can break by
+     *      an unlabeled BreakStatement.
+     * @param {string|null} label - The label of this context.
+     * @returns {Object} The new context.
+     */
+    pushBreakContext<span class="fstat-no" title="function not covered" >(breakable, label) {</span>
+<span class="cstat-no" title="statement not covered" >        this.breakContext = {</span>
+            upper: this.breakContext,
+            breakable,
+            label,
+            brokenForkContext: ForkContext.newEmpty(this.forkContext)
+        };
+<span class="cstat-no" title="statement not covered" >        return this.breakContext;</span>
+    }
+&nbsp;
+    /**
+     * Removes the top item of the break context stack.
+     *
+     * @returns {Object} The removed context.
+     */
+    popBreakContext<span class="fstat-no" title="function not covered" >() {</span>
+<span class="cstat-no" title="statement not covered" >        const context = this.breakContext;</span>
+<span class="cstat-no" title="statement not covered" >        const forkContext = this.forkContext;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        this.breakContext = context.upper;</span>
+&nbsp;
+        // Process this context here for other than switches and loops.
+<span class="cstat-no" title="statement not covered" >        if (!context.breakable) {</span>
+<span class="cstat-no" title="statement not covered" >            const brokenForkContext = context.brokenForkContext;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            if (!brokenForkContext.empty) {</span>
+<span class="cstat-no" title="statement not covered" >                brokenForkContext.add(forkContext.head);</span>
+<span class="cstat-no" title="statement not covered" >                forkContext.replaceHead(brokenForkContext.makeNext(0, -1));</span>
+            }
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        return context;</span>
+    }
+&nbsp;
+    /**
+     * Makes a path for a `break` statement.
+     *
+     * It registers the head segment to a context of `break`.
+     * It makes new unreachable segment, then it set the head with the segment.
+     *
+     * @param {string} label - A label of the break statement.
+     * @returns {void}
+     */
+    makeBreak<span class="fstat-no" title="function not covered" >(label) {</span>
+<span class="cstat-no" title="statement not covered" >        const forkContext = this.forkContext;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (!forkContext.reachable) {</span>
+<span class="cstat-no" title="statement not covered" >            return;</span>
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        const context = getBreakContext(this, label);</span>
+&nbsp;
+        /* istanbul ignore else: foolproof (syntax error) */
+<span class="cstat-no" title="statement not covered" >        if (context) {</span>
+<span class="cstat-no" title="statement not covered" >            context.brokenForkContext.add(forkContext.head);</span>
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        forkContext.replaceHead(forkContext.makeUnreachable(-1, -1));</span>
+    }
+&nbsp;
+    /**
+     * Makes a path for a `continue` statement.
+     *
+     * It makes a looping path.
+     * It makes new unreachable segment, then it set the head with the segment.
+     *
+     * @param {string} label - A label of the continue statement.
+     * @returns {void}
+     */
+    makeContinue<span class="fstat-no" title="function not covered" >(label) {</span>
+<span class="cstat-no" title="statement not covered" >        const forkContext = this.forkContext;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (!forkContext.reachable) {</span>
+<span class="cstat-no" title="statement not covered" >            return;</span>
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        const context = getContinueContext(this, label);</span>
+&nbsp;
+        /* istanbul ignore else: foolproof (syntax error) */
+<span class="cstat-no" title="statement not covered" >        if (context) {</span>
+<span class="cstat-no" title="statement not covered" >            if (context.continueDestSegments) {</span>
+<span class="cstat-no" title="statement not covered" >                makeLooped(this, forkContext.head, context.continueDestSegments);</span>
+&nbsp;
+                // If the context is a for-in/of loop, this effects a break also.
+<span class="cstat-no" title="statement not covered" >                if (context.type === "ForInStatement" ||</span>
+                    context.type === "ForOfStatement"
+                ) {
+<span class="cstat-no" title="statement not covered" >                    context.brokenForkContext.add(forkContext.head);</span>
+                }
+            } else {
+<span class="cstat-no" title="statement not covered" >                context.continueForkContext.add(forkContext.head);</span>
+            }
+        }
+<span class="cstat-no" title="statement not covered" >        forkContext.replaceHead(forkContext.makeUnreachable(-1, -1));</span>
+    }
+&nbsp;
+    /**
+     * Makes a path for a `return` statement.
+     *
+     * It registers the head segment to a context of `return`.
+     * It makes new unreachable segment, then it set the head with the segment.
+     *
+     * @returns {void}
+     */
+    makeReturn<span class="fstat-no" title="function not covered" >() {</span>
+<span class="cstat-no" title="statement not covered" >        const forkContext = this.forkContext;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (forkContext.reachable) {</span>
+<span class="cstat-no" title="statement not covered" >            getReturnContext(this).returnedForkContext.add(forkContext.head);</span>
+<span class="cstat-no" title="statement not covered" >            forkContext.replaceHead(forkContext.makeUnreachable(-1, -1));</span>
+        }
+    }
+&nbsp;
+    /**
+     * Makes a path for a `throw` statement.
+     *
+     * It registers the head segment to a context of `throw`.
+     * It makes new unreachable segment, then it set the head with the segment.
+     *
+     * @returns {void}
+     */
+    makeThrow<span class="fstat-no" title="function not covered" >() {</span>
+<span class="cstat-no" title="statement not covered" >        const forkContext = this.forkContext;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (forkContext.reachable) {</span>
+<span class="cstat-no" title="statement not covered" >            getThrowContext(this).thrownForkContext.add(forkContext.head);</span>
+<span class="cstat-no" title="statement not covered" >            forkContext.replaceHead(forkContext.makeUnreachable(-1, -1));</span>
+        }
+    }
+&nbsp;
+    /**
+     * Makes the final path.
+     * @returns {void}
+     */
+    makeFinal<span class="fstat-no" title="function not covered" >() {</span>
+<span class="cstat-no" title="statement not covered" >        const segments = this.currentSegments;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (segments.length &gt; 0 &amp;&amp; segments[0].reachable) {</span>
+<span class="cstat-no" title="statement not covered" >            this.returnedForkContext.add(segments);</span>
+        }
+    }
+}
+&nbsp;
+module.exports = CodePathState;
+&nbsp;
+&nbsp;</pre></td></tr>
+</table></pre>
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="https://github.com/kaizhu256/node-utility2" target="_blank">utility2</a> at Tue Apr 11 2017 05:32:03 GMT+0000 (UTC)</div>
+</div>
+</body>
+</html>
