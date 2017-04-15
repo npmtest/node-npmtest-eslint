@@ -1,6 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
+<html lang="en"><head>
     <title>Code coverage report for node-npmtest-eslint/eslint/lib/ignored-paths.js</title>
     <meta charset="utf-8">
     <style>
@@ -210,11 +208,11 @@
         
         Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
-    <div class="path"><a href="../../../index.html">All files</a> &#187; <a href="index.html">node-npmtest-eslint/eslint/lib/</a> &#187; ignored-paths.js</div>
+    <div class="path"><a href="../../../index.html">All files</a> » <a href="index.html">node-npmtest-eslint/eslint/lib/</a> » ignored-paths.js</div>
 </div>
 <div class="body">
 <pre><table class="coverage">
-<tr><td class="line-count">1
+<tbody><tr><td class="line-count">1
 2
 3
 4
@@ -743,12 +741,12 @@ const DEFAULT_OPTIONS = {
  * @param {string} cwd Current working directory
  * @returns {string} Path of ignore file or an empty string.
  */
-<span class="fstat-no" title="function not covered" >function findIgnoreFile(cwd) {</span>
-<span class="cstat-no" title="statement not covered" >    cwd = cwd || DEFAULT_OPTIONS.cwd;</span>
+<span class="fstat-no" title="function not covered">function findIgnoreFile(cwd) {</span>
+<span class="cstat-no" title="statement not covered">    cwd = cwd || DEFAULT_OPTIONS.cwd;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    const ignoreFilePath = path.resolve(cwd, ESLINT_IGNORE_FILENAME);</span>
+<span class="cstat-no" title="statement not covered">    const ignoreFilePath = path.resolve(cwd, ESLINT_IGNORE_FILENAME);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return shell.test("-f", ignoreFilePath) ? ignoreFilePath : "";</span>
+<span class="cstat-no" title="statement not covered">    return shell.test("-f", ignoreFilePath) ? ignoreFilePath : "";</span>
 }
 &nbsp;
 /**
@@ -756,9 +754,9 @@ const DEFAULT_OPTIONS = {
  * @param {Object} options Options to merge with DEFAULT_OPTIONS constant
  * @returns {Object} Merged options
  */
-<span class="fstat-no" title="function not covered" >function mergeDefaultOptions(options) {</span>
-<span class="cstat-no" title="statement not covered" >    options = (options || {});</span>
-<span class="cstat-no" title="statement not covered" >    return Object.assign({}, DEFAULT_OPTIONS, options);</span>
+<span class="fstat-no" title="function not covered">function mergeDefaultOptions(options) {</span>
+<span class="cstat-no" title="statement not covered">    options = (options || {});</span>
+<span class="cstat-no" title="statement not covered">    return Object.assign({}, DEFAULT_OPTIONS, options);</span>
 }
 &nbsp;
 //------------------------------------------------------------------------------
@@ -773,8 +771,8 @@ class IgnoredPaths {
     /**
      * @param {Object} options object containing 'ignore', 'ignorePath' and 'patterns' properties
      */
-    constructor<span class="fstat-no" title="function not covered" >(options) {</span>
-<span class="cstat-no" title="statement not covered" >        options = mergeDefaultOptions(options);</span>
+    constructor<span class="fstat-no" title="function not covered">(options) {</span>
+<span class="cstat-no" title="statement not covered">        options = mergeDefaultOptions(options);</span>
 &nbsp;
         /**
          * add pattern to node-ignore instance
@@ -782,8 +780,8 @@ class IgnoredPaths {
          * @param {string} pattern, pattern do add to ig
          * @returns {array} raw ignore rules
          */
-<span class="fstat-no" title="function not covered" >        function addPattern(ig, pattern) {</span>
-<span class="cstat-no" title="statement not covered" >            return ig.addPattern(pattern);</span>
+<span class="fstat-no" title="function not covered">        function addPattern(ig, pattern) {</span>
+<span class="cstat-no" title="statement not covered">            return ig.addPattern(pattern);</span>
         }
 &nbsp;
         /**
@@ -792,75 +790,75 @@ class IgnoredPaths {
          * @param {string} filepath, file to add to ig
          * @returns {array} raw ignore rules
          */
-<span class="fstat-no" title="function not covered" >        function addIgnoreFile(ig, filepath) {</span>
-<span class="cstat-no" title="statement not covered" >            ig.ignoreFiles.push(filepath);</span>
-<span class="cstat-no" title="statement not covered" >            return ig.add(fs.readFileSync(filepath, "utf8"));</span>
+<span class="fstat-no" title="function not covered">        function addIgnoreFile(ig, filepath) {</span>
+<span class="cstat-no" title="statement not covered">            ig.ignoreFiles.push(filepath);</span>
+<span class="cstat-no" title="statement not covered">            return ig.add(fs.readFileSync(filepath, "utf8"));</span>
         }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        this.defaultPatterns = [].concat(DEFAULT_IGNORE_DIRS, options.patterns || []);</span>
-<span class="cstat-no" title="statement not covered" >        this.baseDir = options.cwd;</span>
+<span class="cstat-no" title="statement not covered">        this.defaultPatterns = [].concat(DEFAULT_IGNORE_DIRS, options.patterns || []);</span>
+<span class="cstat-no" title="statement not covered">        this.baseDir = options.cwd;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        this.ig = {</span>
+<span class="cstat-no" title="statement not covered">        this.ig = {</span>
             custom: ignore(),
             default: ignore()
         };
 &nbsp;
         // Add a way to keep track of ignored files.  This was present in node-ignore
         // 2.x, but dropped for now as of 3.0.10.
-<span class="cstat-no" title="statement not covered" >        this.ig.custom.ignoreFiles = [];</span>
-<span class="cstat-no" title="statement not covered" >        this.ig.default.ignoreFiles = [];</span>
+<span class="cstat-no" title="statement not covered">        this.ig.custom.ignoreFiles = [];</span>
+<span class="cstat-no" title="statement not covered">        this.ig.default.ignoreFiles = [];</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        if (options.dotfiles !== true) {</span>
+<span class="cstat-no" title="statement not covered">        if (options.dotfiles !== true) {</span>
 &nbsp;
             /*
              * ignore files beginning with a dot, but not files in a parent or
              * ancestor directory (which in relative format will begin with `../`).
              */
-<span class="cstat-no" title="statement not covered" >            addPattern(this.ig.default, [".*", "!../"]);</span>
+<span class="cstat-no" title="statement not covered">            addPattern(this.ig.default, [".*", "!../"]);</span>
         }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        addPattern(this.ig.default, this.defaultPatterns);</span>
+<span class="cstat-no" title="statement not covered">        addPattern(this.ig.default, this.defaultPatterns);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        if (options.ignore !== false) {</span>
-<span class="cstat-no" title="statement not covered" >            let ignorePath;</span>
+<span class="cstat-no" title="statement not covered">        if (options.ignore !== false) {</span>
+<span class="cstat-no" title="statement not covered">            let ignorePath;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            if (options.ignorePath) {</span>
-<span class="cstat-no" title="statement not covered" >                debug("Using specific ignore file");</span>
+<span class="cstat-no" title="statement not covered">            if (options.ignorePath) {</span>
+<span class="cstat-no" title="statement not covered">                debug("Using specific ignore file");</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >                try {</span>
-<span class="cstat-no" title="statement not covered" >                    fs.statSync(options.ignorePath);</span>
-<span class="cstat-no" title="statement not covered" >                    ignorePath = options.ignorePath;</span>
+<span class="cstat-no" title="statement not covered">                try {</span>
+<span class="cstat-no" title="statement not covered">                    fs.statSync(options.ignorePath);</span>
+<span class="cstat-no" title="statement not covered">                    ignorePath = options.ignorePath;</span>
                 } catch (e) {
-<span class="cstat-no" title="statement not covered" >                    e.message = `Cannot read ignore file: ${options.ignorePath}\nError: ${e.message}`;</span>
-<span class="cstat-no" title="statement not covered" >                    throw e;</span>
+<span class="cstat-no" title="statement not covered">                    e.message = `Cannot read ignore file: ${options.ignorePath}\nError: ${e.message}`;</span>
+<span class="cstat-no" title="statement not covered">                    throw e;</span>
                 }
             } else {
-<span class="cstat-no" title="statement not covered" >                debug(`Looking for ignore file in ${options.cwd}`);</span>
-<span class="cstat-no" title="statement not covered" >                ignorePath = findIgnoreFile(options.cwd);</span>
+<span class="cstat-no" title="statement not covered">                debug(`Looking for ignore file in ${options.cwd}`);</span>
+<span class="cstat-no" title="statement not covered">                ignorePath = findIgnoreFile(options.cwd);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >                try {</span>
-<span class="cstat-no" title="statement not covered" >                    fs.statSync(ignorePath);</span>
-<span class="cstat-no" title="statement not covered" >                    debug(`Loaded ignore file ${ignorePath}`);</span>
+<span class="cstat-no" title="statement not covered">                try {</span>
+<span class="cstat-no" title="statement not covered">                    fs.statSync(ignorePath);</span>
+<span class="cstat-no" title="statement not covered">                    debug(`Loaded ignore file ${ignorePath}`);</span>
                 } catch (e) {
-<span class="cstat-no" title="statement not covered" >                    debug("Could not find ignore file in cwd");</span>
-<span class="cstat-no" title="statement not covered" >                    this.options = options;</span>
+<span class="cstat-no" title="statement not covered">                    debug("Could not find ignore file in cwd");</span>
+<span class="cstat-no" title="statement not covered">                    this.options = options;</span>
                 }
             }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            if (ignorePath) {</span>
-<span class="cstat-no" title="statement not covered" >                debug(`Adding ${ignorePath}`);</span>
-<span class="cstat-no" title="statement not covered" >                this.baseDir = path.dirname(path.resolve(options.cwd, ignorePath));</span>
-<span class="cstat-no" title="statement not covered" >                addIgnoreFile(this.ig.custom, ignorePath);</span>
-<span class="cstat-no" title="statement not covered" >                addIgnoreFile(this.ig.default, ignorePath);</span>
+<span class="cstat-no" title="statement not covered">            if (ignorePath) {</span>
+<span class="cstat-no" title="statement not covered">                debug(`Adding ${ignorePath}`);</span>
+<span class="cstat-no" title="statement not covered">                this.baseDir = path.dirname(path.resolve(options.cwd, ignorePath));</span>
+<span class="cstat-no" title="statement not covered">                addIgnoreFile(this.ig.custom, ignorePath);</span>
+<span class="cstat-no" title="statement not covered">                addIgnoreFile(this.ig.default, ignorePath);</span>
             }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            if (options.ignorePattern) {</span>
-<span class="cstat-no" title="statement not covered" >                addPattern(this.ig.custom, options.ignorePattern);</span>
-<span class="cstat-no" title="statement not covered" >                addPattern(this.ig.default, options.ignorePattern);</span>
+<span class="cstat-no" title="statement not covered">            if (options.ignorePattern) {</span>
+<span class="cstat-no" title="statement not covered">                addPattern(this.ig.custom, options.ignorePattern);</span>
+<span class="cstat-no" title="statement not covered">                addPattern(this.ig.default, options.ignorePattern);</span>
             }
         }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        this.options = options;</span>
+<span class="cstat-no" title="statement not covered">        this.options = options;</span>
     }
 &nbsp;
     /**
@@ -869,21 +867,21 @@ class IgnoredPaths {
      * @param {string} [category=null] check 'default', 'custom' or both (null)
      * @returns {boolean} true if the file path matches one or more patterns, false otherwise
      */
-    contains<span class="fstat-no" title="function not covered" >(filepath, category) {</span>
+    contains<span class="fstat-no" title="function not covered">(filepath, category) {</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        let result = false;</span>
-<span class="cstat-no" title="statement not covered" >        const absolutePath = path.resolve(this.options.cwd, filepath);</span>
-<span class="cstat-no" title="statement not covered" >        const relativePath = pathUtil.getRelativePath(absolutePath, this.options.cwd);</span>
+<span class="cstat-no" title="statement not covered">        let result = false;</span>
+<span class="cstat-no" title="statement not covered">        const absolutePath = path.resolve(this.options.cwd, filepath);</span>
+<span class="cstat-no" title="statement not covered">        const relativePath = pathUtil.getRelativePath(absolutePath, this.options.cwd);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        if ((typeof category === "undefined") || (category === "default")) {</span>
-<span class="cstat-no" title="statement not covered" >            result = result || (this.ig.default.filter([relativePath]).length === 0);</span>
+<span class="cstat-no" title="statement not covered">        if ((typeof category === "undefined") || (category === "default")) {</span>
+<span class="cstat-no" title="statement not covered">            result = result || (this.ig.default.filter([relativePath]).length === 0);</span>
         }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        if ((typeof category === "undefined") || (category === "custom")) {</span>
-<span class="cstat-no" title="statement not covered" >            result = result || (this.ig.custom.filter([relativePath]).length === 0);</span>
+<span class="cstat-no" title="statement not covered">        if ((typeof category === "undefined") || (category === "custom")) {</span>
+<span class="cstat-no" title="statement not covered">            result = result || (this.ig.custom.filter([relativePath]).length === 0);</span>
         }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        return result;</span>
+<span class="cstat-no" title="statement not covered">        return result;</span>
 &nbsp;
     }
 &nbsp;
@@ -891,21 +889,21 @@ class IgnoredPaths {
      * Returns a list of dir patterns for glob to ignore
      * @returns {function()} method to check whether a folder should be ignored by glob.
      */
-    getIgnoredFoldersGlobChecker<span class="fstat-no" title="function not covered" >() {</span>
+    getIgnoredFoldersGlobChecker<span class="fstat-no" title="function not covered">() {</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        const ig = ignore().add(DEFAULT_IGNORE_DIRS);</span>
+<span class="cstat-no" title="statement not covered">        const ig = ignore().add(DEFAULT_IGNORE_DIRS);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        if (this.options.dotfiles !== true) {</span>
+<span class="cstat-no" title="statement not covered">        if (this.options.dotfiles !== true) {</span>
 &nbsp;
             // Ignore hidden folders.  (This cannot be ".*", or else it's not possible to unignore hidden files)
-<span class="cstat-no" title="statement not covered" >            ig.add([".*/*", "!../"]);</span>
+<span class="cstat-no" title="statement not covered">            ig.add([".*/*", "!../"]);</span>
         }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        if (this.options.ignore) {</span>
-<span class="cstat-no" title="statement not covered" >            ig.add(this.ig.custom);</span>
+<span class="cstat-no" title="statement not covered">        if (this.options.ignore) {</span>
+<span class="cstat-no" title="statement not covered">            ig.add(this.ig.custom);</span>
         }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        const filter = ig.createFilter();</span>
+<span class="cstat-no" title="statement not covered">        const filter = ig.createFilter();</span>
 &nbsp;
         /**
          * TODO
@@ -915,16 +913,16 @@ class IgnoredPaths {
          * But doing this leads to a breaking change and fails tests.
          * Related to #6759
          */
-<span class="cstat-no" title="statement not covered" >        const base = this.options.cwd;</span>
+<span class="cstat-no" title="statement not covered">        const base = this.options.cwd;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        return <span class="fstat-no" title="function not covered" >function(absolutePath) {</span></span>
-<span class="cstat-no" title="statement not covered" >            const relative = pathUtil.getRelativePath(absolutePath, base);</span>
+<span class="cstat-no" title="statement not covered">        return <span class="fstat-no" title="function not covered">function(absolutePath) {</span></span>
+<span class="cstat-no" title="statement not covered">            const relative = pathUtil.getRelativePath(absolutePath, base);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            if (!relative) {</span>
-<span class="cstat-no" title="statement not covered" >                return false;</span>
+<span class="cstat-no" title="statement not covered">            if (!relative) {</span>
+<span class="cstat-no" title="statement not covered">                return false;</span>
             }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            return !filter(relative);</span>
+<span class="cstat-no" title="statement not covered">            return !filter(relative);</span>
         };
     }
 }
@@ -932,10 +930,11 @@ class IgnoredPaths {
 module.exports = IgnoredPaths;
 &nbsp;
 &nbsp;</pre></td></tr>
-</table></pre>
+</tbody></table></pre>
 </div>
 <div class="footer">
     <div class="meta">Generated by <a href="https://github.com/kaizhu256/node-utility2" target="_blank">utility2</a> at Sat Apr 15 2017 21:47:54 GMT+0000 (UTC)</div>
 </div>
-</body>
-</html>
+
+
+</body></html>
